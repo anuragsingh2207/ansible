@@ -1,0 +1,12 @@
+---
+ - name: Play1 
+   hosts: test
+   tasks: 
+    - name: Execute command date
+      command: date
+    - name: Execute shell script on server
+      script: test.sh
+    - name: Install httpd service
+      yum: name=httpd state=present
+    - name: Start web server
+      service: name=httpd state=started 
