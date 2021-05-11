@@ -4,18 +4,14 @@
    tasks: 
     - name: Create multiple users
       user: name= {{ item }} state=present
-      with_items: 
-       - ben
-       - johns
-       - sean
+      with_items:
+       - johnsmith
+       - beckyjones
+       - foobar
       tags: user
     - name: Install application
       yum: name= {{ item }} state=present
-      with_items: 
-       - httpd
-       - docker
-       - git
-       - java
+      with_items: "{{httpd, docker, git, java }}"
       when: ansible_facts['os family'] == "CentOS"
       tags: application
   
