@@ -1,0 +1,13 @@
+---
+- name: Play1
+  hosts: test
+  tasks: 
+   - name: Creating multiple users
+     user: name = {{ item }} state=present
+     with_item: ['ben','john','sean']
+     tags: user
+   - name: Installing applications
+     yum: name = {{ item }} state=present
+     with_item: ['httpd', 'docker','git','java']
+     when: ansible_facts['os family'] == "CentOS"
+     tags: application
