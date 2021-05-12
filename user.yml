@@ -1,0 +1,12 @@
+---
+ - name: Play1 
+   hosts: test
+   vars:
+   tasks: 
+    - name: Create multiple users using loops
+      user: name={{ item }} state=present
+      with_items:
+       - john
+       - paul
+       - thomas
+      
