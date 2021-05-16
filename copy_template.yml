@@ -1,0 +1,50 @@
+---
+- name: Play1
+  hosts: test
+  tasks:
+  - name: install httpd application
+    yum: name=httpd state=present
+  - name: copy custom config file
+    copy: src= httpd.conf dest=/etc/httpd/conf/httpd.conf
+  - name: start httpd service
+    service: name=httpd state=present
+
+# Manually copy the files between system
+# scp <IP from where copy>: /etc/httpd/conf/httpd.conf
+
+#(I) change the httpd.confile and copy it again and again
+# OR 
+
+# (II) You can create various playbooks for different environments
+# /etc/ansible/test or /etc/ansible/prod 
+
+# But this increases the complexity of directory structure
+
+
+# There are 2 types of files in ansible
+# 1> file => file having fixed content
+# 2> template => file having variable content
+
+# (III) Maintain single httpd.conf fike & using template will solve this problem as this is not the fixed file
+# Example: Make the "Listen {{ portno }}" & "User {{ username }}" parameter variable in the /etc/httpd/conf/httpd.conf config file
+# we will use template module instead of copy
+
+- name: Play2
+  hosts: test
+  tasks:
+  - name: install httpd application
+    yum: name=httpd state=present
+  - name: copy config file 
+    template : src= httpd.conf dest=/etc/httpd/conf/httpd.conf
+  - name: start httpd service
+    service: name=httpd state=present
+
+  # Run the playbook as ansible-playbook copy.yml --extra-vars="portno=90" --extra-vars="username=john"
+  # You can create a vars file in the directory using below
+  # mkdir group_vars; vi group_vars/all => Enter the values
+  # If you run the playbook for dev/test environment it will pick the same values else you need to specify explicitly n command line
+  # CLI takes precednce over variable files
+  # This way we are not touching the original file and reducing the complexity of maintaining variable configuration files
+
+  # Types of variables in ansible:
+  #--extra-vars, playbook variable, inventory variable, host variable, group_vars, roles default, roles vars
