@@ -1,0 +1,8 @@
+---
+- hosts: test
+  tasks:
+  - name: Check file path
+    command: ls -l /tmp/test1 # This does not show output , it just shows changed/skipping
+    register: output  # Used for storing the values 
+  - debug:
+     var: output.stdout  # This wil print the values

@@ -1,0 +1,13 @@
+---
+- hosts: test
+  tasks:
+   - name : Handling Errors
+     block:
+     - name: check path
+       command: ls -l /tmp/test1
+     rescue:            # If the above task fails then need to fix by executing below block. It is like exception handling.
+     - name : create the file
+       file: name=/tmp/test1 state=touch
+
+   - name: Create user
+     user: name=thomas state=present

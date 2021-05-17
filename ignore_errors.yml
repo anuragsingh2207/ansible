@@ -1,0 +1,18 @@
+# Ignoring Errors in Ansible
+---
+-  hosts: test
+   tasks: 
+    - name: Check file volumes
+      command: ls -l /tmp/test
+      ignore_errors: true   # Applicable only till this task level
+     
+    - name: Create user
+      user: name=john state=present
+      
+     # The usual behaviour will be that if the file does not exist the next task will not be executed 
+     # Upon adding ignore_errors: true , next task will be executed even if the first task fails
+     # You can mentioned at the top like  below
+     # -  hosts: test
+     #    ignore_errors: true
+     #    tasks: 
+     # This will be applicable entire play level
