@@ -1,0 +1,18 @@
+
+--- 
+- hosts: dev
+  tasks:
+  - name: "Start the Apache HTTPD Server"
+#  become: true
+#  become_user: root   <<<<<< used when you are running your commands as non root user
+    register: starthttpdout
+    shell: "httpd -k start"
+    changed_when: "'already running' not in starthttpdout.stdout"
+
+  - debug:
+      msg: "{{starthttpdout.stdout}}"
+
+
+  # If you run this playbook, everytime it will say that starting the HTTPD service and changed=true but it is not actually doing it 
+  # This provides the false information 
+  # We can fix it can by using changed_when

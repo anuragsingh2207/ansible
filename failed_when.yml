@@ -1,0 +1,15 @@
+---
+- hosts: test
+  tasks:
+  - name: Making sure the /tmp has more than 1gb
+    shell: "df -h /|grep -v Filesystem|awk '{print $4}'|cut -d G -f1" #Prints available space in / filesystem 
+    register: tmpspace
+    failed_when: "tmpspace.stdout|float < 9" #Checks if the available space is less than 9 GB then fails task
+  - debug: 
+     var: tmpspace.stdout
+  - name:  create a user
+    user: name=anurag state=present  #This task may fail depending upon the condition check 
+
+# there is a difference between when condition and failed_when
+# in when condition task is not triggered 
+# whereas in failed_when condition task gets triggerd

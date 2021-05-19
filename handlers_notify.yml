@@ -1,0 +1,22 @@
+#if there is some dependency like change in the config file then a restart needs to be done
+# install httpd and copy the config file /etc/httpd/conf/httpd.conf in ansible directory.
+# but sometimes it may unnnecessarily restart the service
+---
+- hosts: test
+  tasks: 
+   - name: install httpd 
+     yum : name=httpd state=installed
+   - name: copy the config file
+     copy: src=httpd.conf dest=/etc/httpd/conf/httpd.conf
+     notify: 
+     - restart the service
+    
+   - name: start the service
+     service: name=httpd state=started
+   
+  handlers: 
+   - name: restart the service 
+     service: name=httpd state=restarted
+
+     # Test the playbook my making change once and not making the change once
+     # handler will be triggered only when changed=true
