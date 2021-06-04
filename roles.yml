@@ -1,0 +1,60 @@
+# Similar like functions in any programming language 
+# Used for reusability of code
+# define once call multiple times
+# go to ansible direcctory and cd roles
+# Run below command to initialize a role
+# ansible-galaxy init webrole
+# ls will show a new directory of webrole
+# cd webrole ; ls <<< It will list the directory structure
+# You can create this directory structure manually as well
+# All the playbook tasks will stored under tasks directory <<< Main directory
+# All the files which need to be copied to destination these files will be placed under files directory
+# templates will be stored in templates directory
+# handlers will be maintained in the handlers directory
+
+# Make the tasks/main.yml file as below
+
+---
+- name: installing httpd application
+  yum: name=httpd state=installed
+- name: copy config file
+  copy: src=httpd.conf dest=/etc/httpd/conf/httpd.conf
+  # Copy the config file to the files folder
+  notify: 
+   - restart the service 
+ # cd ../handlers/; vi main.yml
+ # ---
+ # - name: restart the service 
+ #   service: name=httpd state=restarted
+- name: start the httpd service
+  service: name=httpd state=started
+
+# cd /etc/ansible
+# create a regular palybook file beause someone from team1 approached you
+# ---
+#  - hosts: test
+#    tasks:
+#     - name: create an user
+#       user: name=team1_user state=present
+#     - name: create a file
+#       file: name=/tmp/test1 state=touch
+#     roles: 
+#       - webrole          <<<<<<< resuse role 
+# run the playbook
+
+# ++++++++++++++++++++++++++++++++++++++++++
+# create a regular palybook file beause someone from team1 approached you
+
+# ---
+#  - hosts: test
+#    tasks:
+#     - name: create an user
+#       user: name=team2_user state=present
+#     - name: create a file
+#       file: name=/tmp/test1 state=touch
+#     roles: 
+#       - webrole          <<<<<<< resuse role 
+
+# ++++++++++++++++++++++++++++++++++++++++++
+
+# Google for ansible roles in github
