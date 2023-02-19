@@ -1,2 +1,2 @@
-# ansible_repo
-This repo contains ansible playbooks
+# Ansible
+This repo contains sample ansible playbooks
